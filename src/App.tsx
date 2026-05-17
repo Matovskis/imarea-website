@@ -2,6 +2,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Canvas } from "@react-three/fiber";
 import { PresentationControls, Stage, useGLTF } from "@react-three/drei";
+import { HeroBackground } from "./components/HeroBackground";
 import {
   Search,
   ShoppingCart,
@@ -32,17 +33,17 @@ import {
 } from "lucide-react";
 
 // --- 3D Model Component ---
-const ModelWrapper = ({ url }: { url: string }) => {
+const ModelWrapper = React.memo(({ url }: { url: string }) => {
   const { scene } = useGLTF(url);
   return (
     <Stage environment="city" intensity={0.6} shadows="contact">
-      <primitive object={scene} scale={1.5} />
+      <primitive object={scene} scale={2.5} />
     </Stage>
   );
-};
+});
 
 // --- Header ---
-const Header = () => {
+const Header = React.memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -145,45 +146,13 @@ const Header = () => {
       </AnimatePresence>
     </header>
   );
-};
+});
 
 // --- Hero Section ---
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden bg-[#050406]">
-      {/* Background Gradients & Motion Graphics */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#C00B27]/10 blur-[150px] rounded-full" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#F1156D]/5 blur-[120px] rounded-full" />
-        
-        {/* Animated Blobs */}
-        <motion.div
-          animate={{
-            x: ["-25%", "25%", "-25%"],
-            y: ["-15%", "15%", "-15%"],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-1/4 left-1/2 w-[50%] h-[50%] bg-[#C00B27]/10 blur-[120px] rounded-full mix-blend-screen"
-        />
-        <motion.div
-          animate={{
-            x: ["25%", "-25%", "25%"],
-            y: ["15%", "-15%", "15%"],
-            rotate: [360, 180, 33],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute bottom-1/4 right-3/4 w-[25%] h-[45%] bg-[#F1156D]/15 blur-[90px] rounded-full mix-blend-screen"
-        />
-      </div>
+      <HeroBackground />
 
       <div className="max-w-[1600px] mx-auto px-8 w-full grid lg:grid-cols-2 gap-20 items-center relative z-10">
         <motion.div
@@ -230,7 +199,16 @@ const Hero = () => {
         >
           <div className="absolute inset-0 bg-[#1e0b0b] backdrop-blur-sm rounded-[40px] shadow-[0_40px_80px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden group z-10">
             <div className="absolute inset-0 z-0 cursor-grab active:cursor-grabbing">
-              <Canvas dpr={[1, 2]} camera={{ fov: 45 }}>
+              <Canvas 
+                dpr={[1, 1.5]} 
+                camera={{ fov: 45 }}
+                gl={{ 
+                  antialias: true,
+                  powerPreference: "high-performance",
+                  alpha: true
+                }}
+                performance={{ min: 0.5 }}
+              >
                 <Suspense fallback={null}>
                   <PresentationControls
                     speed={1.5}
@@ -433,10 +411,10 @@ const OrderCTA = () => {
               <img
                 src={cta.img}
                 alt={cta.title}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent" />
+              />              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent" />
             </div>
 
             <div className="relative z-10 text-white text-center">
@@ -527,6 +505,7 @@ const FeaturedCreations = () => {
                   id={`creation-img-${i}`}
                   src={p.img}
                   alt={p.name}
+                  loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
