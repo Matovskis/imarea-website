@@ -238,7 +238,7 @@ const Hero = () => {
                     zoom={0.7}
                     polar={[-0.1, Math.PI / 4]}
                   >
-                    <ModelWrapper url="./src/optimus_prime_3d_sculpture-transformers_fanart.glb" />
+                    <ModelWrapper url="/optimus_prime_3d_sculpture-transformers_fanart.glb" />
                   </PresentationControls>
                 </Suspense>
               </Canvas>
@@ -466,7 +466,7 @@ const FeaturedCreations = () => {
     {
       name: "3D Sculpture v1",
       price: 320.0,
-      img: "/src/3dprint1.jpg",
+      img: "/3dprint1.jpg",
       desc: "An intricate red mesh structure pushing the limits of additive manufacturing.",
       rating: 5,
       reviews: 24,
@@ -474,7 +474,7 @@ const FeaturedCreations = () => {
     {
       name: "3D Sculpture v2",
       price: 450.0,
-      img: "/src/3dprint2.jpg",
+      img: "/3dprint2.jpg",
       desc: "Smooth, mathematically derived red vase capturing fluid motion in solid form.",
       rating: 5,
       reviews: 18,
@@ -482,7 +482,7 @@ const FeaturedCreations = () => {
     {
       name: "3D Sculpture v3",
       price: 185.0,
-      img: "/src/3dprint3.jpg",
+      img: "/3dprint3.jpg",
       desc: "A bold, geometric red sculpture exploring the interplay of light and shadow.",
       rating: 4,
       reviews: 32,
@@ -490,7 +490,7 @@ const FeaturedCreations = () => {
     {
       name: "3D Sculpture v4",
       price: 540.0,
-      img: "/src/3dprint4.jpg",
+      img: "/3dprint4.jpg",
       desc: "A complex, lattice-like red sculpture showcasing the precision of 3D printing technology.",
       rating: 5,
       reviews: 12,
