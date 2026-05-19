@@ -6,9 +6,9 @@
   --font-display: "Outfit", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-brand: #720026;
-  --color-brand-light: #8e1a3e;
-  --color-brand-dark: #56001d;
+  --color-brand: #0066FF;
+  --color-brand-light: #4D94FF;
+  --color-brand-dark: #0047B3;
 }
 
 @layer base {

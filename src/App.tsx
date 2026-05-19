@@ -74,13 +74,13 @@ const Header = React.memo(() => {
       <div className="max-w-[1600px] mx-auto px-8 flex items-center justify-between">
         <div className="flex items-center gap-16">
           <a href="#" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-[#C00B27] flex items-center justify-center rounded-lg shadow-[0_0_15px_rgba(192,11,39,0.3)] group-hover:scale-105 transition-all">
+            <div className="w-10 h-10 bg-[#0066FF] flex items-center justify-center rounded-lg shadow-[0_0_15px_rgba(0,102,255,0.3)] group-hover:scale-105 transition-all">
               <span className="text-white font-display font-bold text-xl tracking-tighter">
                 IR
               </span>
             </div>
             <span className="font-display font-bold text-2xl tracking-tight text-white">
-              ImaRea
+              ImaRea Studios
             </span>
           </a>
         </div>
@@ -130,7 +130,7 @@ const Header = React.memo(() => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-2xl font-bold text-white hover:text-[#C00B27] transition-colors"
+                  className="text-2xl font-bold text-white hover:text-[#0066FF] transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.name}
@@ -170,7 +170,7 @@ const Hero = () => {
           <h1 className="text-7xl md:text-[110px] font-bold leading-[0.9] tracking-tight mb-10 text-white">
             IMAGINATION.
             <br />
-            <span className="text-[#fb5935]">MADE REAL.</span>
+            <span className="text-[#4D94FF]">MADE REAL.</span>
           </h1>
 
           <p className="text-lg text-white/50 mb-12 max-w-xl leading-relaxed">
@@ -197,7 +197,7 @@ const Hero = () => {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
           className="relative aspect-square lg:aspect-[4/3] w-full"
         >
-          <div className="absolute inset-0 bg-[#1e0b0b] backdrop-blur-sm rounded-[40px] shadow-[0_40px_80px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden group z-10">
+          <div className="absolute inset-0 bg-[#0b1426] backdrop-blur-sm rounded-[40px] shadow-[0_40px_80px_rgba(0,0,0,0.5)] border border-white/10 overflow-hidden group z-10">
             <div className="absolute inset-0 z-0 cursor-grab active:cursor-grabbing">
               <Canvas 
                 dpr={[1, 1.5]} 
@@ -221,8 +221,8 @@ const Hero = () => {
                 </Suspense>
               </Canvas>
             </div>
-            <div className="absolute -top-20 -left-20 w-64 h-64 bg-[#F1156D]/10 blur-[100px] rounded-full pointer-events-none" />
-            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#C00B27]/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute -top-20 -left-20 w-64 h-64 bg-[#0066FF]/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#0047B3]/10 blur-[100px] rounded-full pointer-events-none" />
             <div className="absolute bottom-8 right-8 z-20">
               <div className="bg-black/90 backdrop-blur-3xl border border-white/10 p-5 rounded-2xl shadow-2xl flex items-start gap-4 min-w-[280px]">
                 <div className="w-3 h-3 bg-[#4ADE80] rounded-full mt-1.5 shadow-[0_0_15px_rgba(74,222,128,0.5)]" />
@@ -238,7 +238,7 @@ const Hero = () => {
             </div>
             <div className="absolute top-8 left-8 z-20 pointer-events-none">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-2 h-2 bg-[#F1156D] rounded-full animate-pulse" />
+                <div className="w-2 h-2 bg-[#0066FF] rounded-full animate-pulse" />
                 <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
                   Interactive 3D
                 </span>
@@ -445,7 +445,7 @@ const FeaturedCreations = () => {
       name: "3D Sculpture v1",
       price: 320.0,
       img: "/3dprint1.jpg",
-      desc: "An intricate red mesh structure pushing the limits of additive manufacturing.",
+      desc: "An intricate blue mesh structure pushing the limits of additive manufacturing.",
       rating: 5,
       reviews: 24,
     },
@@ -453,7 +453,7 @@ const FeaturedCreations = () => {
       name: "3D Sculpture v2",
       price: 450.0,
       img: "/3dprint2.jpg",
-      desc: "Smooth, mathematically derived red vase capturing fluid motion in solid form.",
+      desc: "Smooth, mathematically derived blue vase capturing fluid motion in solid form.",
       rating: 5,
       reviews: 18,
     },
@@ -461,7 +461,7 @@ const FeaturedCreations = () => {
       name: "3D Sculpture v3",
       price: 185.0,
       img: "/3dprint3.jpg",
-      desc: "A bold, geometric red sculpture exploring the interplay of light and shadow.",
+      desc: "A bold, geometric blue sculpture exploring the interplay of light and shadow.",
       rating: 4,
       reviews: 32,
     },
@@ -469,7 +469,7 @@ const FeaturedCreations = () => {
       name: "3D Sculpture v4",
       price: 540.0,
       img: "/3dprint4.jpg",
-      desc: "A complex, lattice-like red sculpture showcasing the precision of 3D printing technology.",
+      desc: "A complex, lattice-like blue sculpture showcasing the precision of 3D printing technology.",
       rating: 5,
       reviews: 12,
     },
@@ -719,13 +719,13 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
         <div className="space-y-8">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-brand flex items-center justify-center rounded-sm">
+            <div className="w-8 h-8 bg-[#0066FF] flex items-center justify-center rounded-sm">
               <span className="text-white font-display font-bold text-base tracking-tighter">
                 IR
               </span>
             </div>
             <span className="font-display font-bold text-xl tracking-tighter text-gray-950 uppercase">
-              ImaRea
+              ImaRea Studios
             </span>
           </div>
           <p className="text-sm text-gray-500 leading-relaxed max-w-xs">

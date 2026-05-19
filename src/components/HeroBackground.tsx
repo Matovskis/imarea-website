@@ -23,50 +23,45 @@ const fragmentShader = `
     p.x *= ratio;
 
     float t = uTime * 0.05;
+    
+    // Centers with extreme range to reach absolute edges/corners
+    // Aspect ratio is applied to P, so centers must also respect it or exceed it
+    vec2 c1 = vec2(sin(t * 1.1 + uRandom.x) * 4.5, cos(t * 0.8 + uRandom.y) * 3.0);
+    vec2 c2 = vec2(cos(t * 0.9 + uRandom.z) * 4.5, sin(t * 1.2 + uRandom.x * 2.0) * 3.0);
+    vec2 c3 = vec2(sin(t * 0.7 + uRandom.y * 3.0) * 4.0, cos(t * 1.1 + uRandom.z * 1.5) * 3.5);
 
-    // 5 Centers with varied ranges and random offsets
-    vec2 c1 = vec2(sin(t * 1.1 + uRandom.x) * 3.5, cos(t * 0.8 + uRandom.y) * 2.5);
-    vec2 c2 = vec2(cos(t * 0.9 + uRandom.z) * 3.5, sin(t * 1.2 + uRandom.x * 2.0) * 2.5);
-    vec2 c3 = vec2(sin(t * 0.7 + uRandom.y * 3.0) * 3.0, cos(t * 1.1 + uRandom.z * 1.5) * 2.5);
-    vec2 c4 = vec2(cos(t * 1.3 - uRandom.y) * 3.2, sin(t * 0.9 + uRandom.x) * 2.2);
-    vec2 c5 = vec2(sin(t * 0.8 + uRandom.z * 2.0) * 2.8, cos(t * 1.4 - uRandom.x) * 3.0);
+    // Proximity check: dim if centers touch
+    float dist12 = length(c1 - c2);
+    float dist13 = length(c1 - c3);
+    float dist23 = length(c2 - c3);
 
-    // Proximity check for all pairs (simplified)
-    float b1 = smoothstep(1.5, 4.0, length(c1-c2)) * smoothstep(1.5, 4.0, length(c1-c3));
-    float b2 = smoothstep(1.5, 4.0, length(c2-c1)) * smoothstep(1.5, 4.0, length(c2-c4));
-    float b3 = smoothstep(1.5, 4.0, length(c3-c1)) * smoothstep(1.5, 4.0, length(c3-c5));
-    float b4 = smoothstep(1.5, 4.0, length(c4-c2)) * smoothstep(1.5, 4.0, length(c4-c5));
-    float b5 = smoothstep(1.5, 4.0, length(c5-c3)) * smoothstep(1.5, 4.0, length(c5-c4));
+    float b1 = smoothstep(2.0, 7.0, dist12) * smoothstep(2.0, 7.0, dist13);
+    float b2 = smoothstep(2.0, 7.0, dist12) * smoothstep(2.0, 7.0, dist23);
+    float b3 = smoothstep(2.0, 7.0, dist13) * smoothstep(2.0, 7.0, dist23);
 
-    // Soft distance fields
-    float d1 = length(p - c1) * 0.6;
-    float d2 = length(p - c2) * 0.5;
-    float d3 = length(p - c3) * 0.7;
-    float d4 = length(p - c4) * 0.55;
-    float d5 = length(p - c5) * 0.65;
+    // Soft distance fields - very loose falloff for edge glow
+    float d1 = length(p - c1) * 0.3;
+    float d2 = length(p - c2) * 0.25;
+    float d3 = length(p - c3) * 0.4;
 
-    // Weights - pow 2.2 for smaller, more defined blobs
-    float w1 = (1.0 / pow(d1 + 0.1, 2.2)) * (0.4 + b1 * 0.6);
-    float w2 = (1.0 / pow(d2 + 0.1, 2.2)) * (0.4 + b2 * 0.6);
-    float w3 = (1.0 / pow(d3 + 0.1, 2.2)) * (0.4 + b3 * 0.6);
-    float w4 = (1.0 / pow(d4 + 0.1, 2.2)) * (0.4 + b4 * 0.6);
-    float w5 = (1.0 / pow(d5 + 0.1, 2.2)) * (0.4 + b5 * 0.6);
-
-    float totalW = w1 + w2 + w3 + w4 + w5 + 1.0;
-
-    vec3 colRed = vec3(0.75, 0.04, 0.15); // #C00B27
-    vec3 colDeep = vec3(0.55, 0.01, 0.10); // Deeper red
-    vec3 colPurple = vec3(0.25, 0.02, 0.20); // Dark accent
+    // Weights with proximity-based dimming - low pow (1.5) for massive glow spill
+    float w1 = (1.0 / pow(d1 + 0.1, 1.5)) * (0.3 + b1 * 0.7);
+    float w2 = (1.0 / pow(d2 + 0.1, 1.5)) * (0.3 + b2 * 0.7);
+    float w3 = (1.0 / pow(d3 + 0.1, 1.5)) * (0.3 + b3 * 0.7);
+    
+    float totalW = w1 + w2 + w3 + 0.5;
+    
+    vec3 color1 = vec3(0.0, 0.4, 1.0); // #0066FF
+    vec3 color2 = vec3(0.0, 0.2, 0.6); // #003399
     vec3 bgColor = vec3(0.02, 0.016, 0.024); // #050406
+    
+    vec3 finalColor = (color1 * w1 + color2 * w2 + bgColor * (w3 + 0.5)) / totalW;
+    // Add subtle vignetting - relaxed to allow corner reach
+    float vignette = smoothstep(3.5, 0.5, length(p));
+    finalColor *= vignette;
 
-    vec3 finalColor = (colRed * (w1 + w4) + colDeep * (w2 + w5) + colPurple * w3 + bgColor) / totalW;
-
-// Add subtle vignetting - relaxed to allow corner reach
-float vignette = smoothstep(3.5, 0.5, length(p));
-finalColor *= vignette;
-
-gl_FragColor = vec4(finalColor, 1.0);
-}
+    gl_FragColor = vec4(finalColor, 1.0);
+  }
 `;
 
 const ShaderPlane = () => {
